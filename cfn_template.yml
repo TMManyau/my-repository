@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  This CloudFormation Template was written to run the Kittens Carousel Static Website on EC2.
+Parameters:
+  pMyKey:
+    Description: Key pair for EC2 instance
+    Type: String
+Resources:
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP for Apache Web Server and SSH for secure connection.
+      GroupName: WebSecurityGroup
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: WebSecurityGroup
+      VpcId: vpc-0eca201a5af41fd3f
+  WebServerHost:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1d
+      ImageId: ami-0022f774911c1d690
+      InstanceType: t2.micro
+      KeyName: !Ref FirstKey
+      SecurityGroupIds:
+        - !Ref launch-wizard-15
+      Tags:
+        - Key: Name
+          Value: Kitten Carousel
+      UserData:
+        Fn::Base64: !Sub |
+          #! /bin/bash
+          yum update -y 
+          yum install httpd -y
+          chmod -R 777 /var/www/html
+          cd /var/www/html
+          FOLDER="https://raw.githubusercontent.com/TMManyau/my-repository/tree/main/aws/projects/Project-101-kitten-carousel-static-website-ec2
+          wget $FOLDER/index.html
+          wget $FOLDER/cat0.jpg
+          wget $FOLDER/cat1.jpg
+          wget $FOLDER/cat2.jpg
+          wget $FOLDER/cat3.jpg
+          systemctl start httpd
+          systemctl enable httpd
