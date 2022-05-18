@@ -25,7 +25,12 @@ if __name__== "__main__":
     app.run(debug=True)
 
 
-
+if test expression1:
+    statement(s)1
+elif test_expression2:
+    statement(s)2
+else:
+    statement(s)3
 
 
 
