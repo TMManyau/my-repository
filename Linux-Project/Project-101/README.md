@@ -8,23 +8,8 @@ You will be working in different roles during this project and assigned to vario
 Companies have problems based on their infrastructures and needs. In this project, you will be working in different roles and you will be assigned some tasks which have backing up, security issues, user and password management, and some string manipulation duties. Sometimes, you need to prepair some bash script files or execute some commands, to be able to accomplish them. There are four tasks. Manager's instructions belonging them can be found below. Please read them carefully and fulfill requirements. Good Luck!
 
 ## Part 1: Security Issue
-You are working in a Financial Company as DevSecOps. Recently, one of your instances has been terminated by someone within the firm. That instance was very important for firm's web-app and also your infrastructure has been affected by this termination. Your team lead is suspecting `Serdar` user. You have been assigned to find instances' ids terminated by `Serdar` user. You have Cloudtrail event history file named `event_history.csv`. Instance ids within this event history look like `i-0c127ab5cdf997cf4`. You have to apply some filtering and string manipulation commands to find ids. To be able to handle this tasks, you decided to create a bash script, then, save instances' ids terminated by `Serdar` user in `result.txt` file. 
 
-Commands we can use for the filtering portion
-
-mlr --csv filter -S '$message=~"(r|R)ead" && $score>20' then cut -f score,ID input.csv >output.csv
-Some details about the command:
-
-    --csv, to set input and output format
-    filter -S '$message=~"(r|R)ead" && $score>20' to apply your filter
-    cut -f score,ID to select your fields
-
-cat event_history.csv | grep Serdar | awk -F "," '{print $1 $9 }' event_history.csv 
-
-awk -F "," '{print $4}' event_history.csv | cat event_history.csv | grep Serdar > result.txt
-
-sort | awk -F "\"*,\"*" '{print $4}' event_history.csv > result.txt
-
+wn
 Write a bash script to print a particular line from a file
 awk : $>awk '{if(NR==LINE_NUMBER) print $0}' file. txt.
 sed : $>sed -n LINE_NUMBERp file. txt.
