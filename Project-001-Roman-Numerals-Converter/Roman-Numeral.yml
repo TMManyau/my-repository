@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Roman-Numeral Converter Application (Python Flask) deployed on AWS EC2 with Cloudformation and AWS CLI"
+Parameters: 
+  pInstanceType: 
+    AllowedValues: 
+      - t2.micro
+    Default: t2.micro
+    Description: t2.micro
+    Type: "AWS::EC2::VPC::Id"
+  pKeyPair: 
+    Description: "Key Pair for Instance"
+    Type: "AWS::EC2::KeyPair::KeyName"
+  pVPCId: 
+    Description: "VPC where ECS Insatnce is created"
+    Type: "AWS::EC2::VPC::Id"
+Resources: 
+  rMySG: 
+    Type: "AWS::EC2::SecurityGroup"
+    Properties: 
+      GroupDescription: "Enable SSH and HTTP"
+      GroupName: "Enable SSH and HTTP"
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          FromPort: 80
+          ToPort: 80
+        - IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          FromPort: 22
+          ToPort: 22
+      VpcId: !Ref pVPCId
+
+  rLaunchTemplate: 
+    Type: "AWS::EC2::LaunchTemplate"
+    Properties: 
+      LaunchTemplateData: 
+        ImageId: ami-0022f774911c1d690
+        InstanceType: !Ref pInstanceType
+        KeyName: !Ref pKeyPair
+        SecurityGroupIds: 
+          - !Ref rMySG
+        UserData: |
+            #! /bin/bash
+            yum update -y
+            yum install -y httpd
+  
+
+#Transform:
+  
+#Outputs:
