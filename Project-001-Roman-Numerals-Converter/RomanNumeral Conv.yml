@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  # Project-001 : Roman Numerals Converter Application (Python Flask) deployed on AWS EC2 with Cloudformation and AWS CLI
+
+Parameters:
+  MyKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: First Key # Required
+      KeyType: "String"
+  
+#Metadata:
+  
+#Mappings:
+  
+#Conditions:
+  
+Resources:
+
+LogicalID:
+  Type: AWS::EC2::Instance
+  Properties:
+    AvailabilityZone: ParameterName:
+      Description: 
+      Type: AWS::EC2::AvailabilityZone::Name
+      Default: us-east-1
+        ImageId: ami-0022f774911c1d690
+    InstanceType: t2.micro
+    KeyName: !Ref MyKeyPair 
+    LaunchTemplate: LogicalID:
+      Type: AWS::CloudFormation::Stack
+    SecurityGroupIds:
+      -IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      -IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+    
+    
+    SubnetId: "String"
+    Tags:
+      Tags
+    
+  
+#Transform:
+  
+Outputs:

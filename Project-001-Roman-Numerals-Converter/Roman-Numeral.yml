@@ -1,23 +1,26 @@
-AWSTemplateFormatVersion: 2010-09-09
+ KeyPair: First Key
+    Type : AWS::EC2::KeyPair::KeyNameAWSTemplateFormatVersion: 2010-09-09
 Description: "Roman-Numeral Converter Application (Python Flask) deployed on AWS EC2 with Cloudformation and AWS CLI"
+
+
 Parameters: 
-  pInstanceType: 
+ InstanceType: 
     AllowedValues: 
       - t2.micro
-    Default: t2.micro
-    Description: t2.micro
-    Type: "AWS::EC2::VPC::Id"
-  pKeyPair: 
-    Description: "Key Pair for Instance"
-    Type: "AWS::EC2::KeyPair::KeyName"
-  pVPCId: 
+    Default: LogicalID:
+      Type: AWS::EC2::Instance
+      Description: t2.micro
+    Type: AWS::EC2::VPC::Id
+ KeyPair: First Key
+    Type : AWS::EC2::KeyPair::KeyName
+ VPCId: 
     Description: "VPC where ECS Insatnce is created"
     Type: "AWS::EC2::VPC::Id"
 Resources: 
-  rMySG: 
-    Type: "AWS::EC2::SecurityGroup"
+  WebServerSecurityGroup: 
+    Type: AWS::EC2::SecurityGroup
     Properties: 
-      GroupDescription: "Enable SSH and HTTP"
+      GroupDescription: "Enable SSH port to secure reach to EC2 Instance and HTTP for Flask Webserver"
       GroupName: "Enable SSH and HTTP"
       SecurityGroupIngress: 
         - IpProtocol: tcp
@@ -30,21 +33,35 @@ Resources:
           ToPort: 22
       VpcId: !Ref pVPCId
 
-  rLaunchTemplate: 
-    Type: "AWS::EC2::LaunchTemplate"
-    Properties: 
-      LaunchTemplateData: 
-        ImageId: ami-0022f774911c1d690
-        InstanceType: !Ref pInstanceType
-        KeyName: !Ref pKeyPair
-        SecurityGroupIds: 
-          - !Ref rMySG
-        UserData: |
-            #! /bin/bash
-            yum update -y
-            yum install -y httpd
+  WebServerHost: 
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0022f774911c1d690
+      InstanceType: !Ref pInstanceType
+      KeyName: !Ref KeyPair
+      SecurityGroupIds: 
+        - !Ref WebServerSecurityGroup
+      Tags:
+      - Key: Name
+        Value: !Sub Web Server of ${AWS::StackName}
+      UserData: 
+        Fn::Base64: |
+          #! /bin/bash
+          sudo yum update -y
+          sudo yum install httpd -y 
+          cd /usr/lib/python3/dist-packages/pip 
+          FOLDER="https://raw.githubusercontent.com/TMManyau/my-repository/main/Project-001-Roman-Numerals-Converter/"
+          wget ${FOLDER}app.py
+          wget ${FOLDER}index.html
+          wget ${FOLDER}result.html
+          systemctl start httpd
+          systemctl enable httpd
+          cd ..
+          python3 app.py
   
-
-#Transform:
-  
-#Outputs:
+Outputs:
+  AppWebURL:
+    Value: !Sub
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt WebServerHost.PublicDnsName
+    Description: Roman Numerals Converter Application URL
