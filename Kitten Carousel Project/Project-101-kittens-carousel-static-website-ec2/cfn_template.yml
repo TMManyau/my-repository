@@ -43,7 +43,7 @@ Resources:
           yum install httpd -y
           chmod -R 777 /var/www/html
           cd /var/www/html
-          FOLDER="https://raw.githubusercontent.com/TMManyau/my-repository/tree/main/aws/projects/Project-101-kitten-carousel-static-website-ec2
+          FOLDER="https://raw.githubusercontent.com/TMManyau/my-repository/tree/main/aws/projects/Project-101-kitten-carousel-static-website-ec2"
           wget $FOLDER/index.html
           wget $FOLDER/cat0.jpg
           wget $FOLDER/cat1.jpg
