@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: | 
+The Phonebook Application aims to create a phonebook application in Python and deployed as a web application with Flask on AWS Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances and Relational Database Service (RDS) using AWS Cloudformation Service.
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+    Description: t2.micro
+    Ec2Instance:
+    Type: AWS::EC2::Instance
+      Properties:
+        InstanceType:
+          Ref: InstanceTypeParameter
+        ImageId: ami-0ff8a91507f77f867
+  KeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: FirstKey.pem # Required
+      KeyType: "String"
+  VpcId:
+    Description: Where EC2 is created
+      Type: AWS::EC2::VPC::Id
+  
+Resources:
+
+  
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: "String" # Required
+        GroupName: "String"
+        SecurityGroupIngress:
+        -IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          FromPort: 80
+          ToPort: 80
+        -IpProtocol: tcp 
+          CidrIp: 0.0.0.0/0
+          FromPort: 22
+          ToPort: 22
+      VpcId: !Ref VpcId 
+
+      AvailabiltyZone:
+        Description: 
+        Type: List<AWS::EC2::AvailabilityZone::Name>
+        Default: us-east-1a
+    AutoScalingGrp:
+      Type: AWS::AutoScaling::AutoScalingGroup
+      Properties:
+        AutoScalingGroupName: "String"
+        AvailabilityZones:
+          AvailabilityZones
+        CapacityRebalance: false
+        Context: "String"
+        Cooldown: "String"
+        DefaultInstanceWarmup: Number
+        DesiredCapacity: "String"
+        DesiredCapacityType: "String"
+        HealthCheckGracePeriod: Number
+        HealthCheckType: "String"
+        InstanceId: "String"
+        LaunchConfigurationName: "String"
+        LaunchTemplate:
+          LaunchTemplateId: "String"
+          LaunchTemplateName: "String"
+          Version: "String"
+        LifecycleHookSpecificationList:
+          LifecycleHookSpecificationList
+        LoadBalancerNames:
+          LoadBalancerNames
+        MaxInstanceLifetime: Number
+        MaxSize: "String" # Required
+        MetricsCollection:
+          MetricsCollection
+        MinSize: "String" # Required
+        MixedInstancesPolicy:
+        NewInstancesProtectedFromScaleIn: false
+        NotificationConfigurations:
+          NotificationConfigurations
+        PlacementGroup: "String"
+        ServiceLinkedRoleARN: "String"
+        Tags:
+          Tags
+        TargetGroupARNs:
+          TargetGroupARNs
+        TerminationPolicies:
+          TerminationPolicies
+        VPCZoneIdentifier:
+          VPCZoneIdentifier
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      AccessLoggingPolicy:
+        EmitInterval: Number
+        Enabled: false
+        S3BucketName: "String"
+        S3BucketPrefix: "String"
+      AvailabilityZones:
+        AvailabilityZones
+      ConnectionDrainingPolicy:
+        Enabled: String
+        Timeout: Number
+      ConnectionSettings:
+        IdleTimeout: Number
+      CrossZone: false
+      HealthCheck:
+        HealthyThreshold: "String"
+        Interval: "String"
+        Target: "String"
+        Timeout: "String"
+        UnhealthyThreshold: "String"
+      Instances:
+        Instances
+      LBCookieStickinessPolicy:
+        LBCookieStickinessPolicy
+      Listeners: # Required
+        Listeners
+      LoadBalancerName: "String"
+      Policies:
+        Policies
+      Scheme: "String"
+      SecurityGroups:
+        SecurityGroups
+      Subnets:
+        Subnets
+      Tags:
+        Tags
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "String"
+      EnableDnsHostnames: false
+      EnableDnsSupport: false
+      InstanceTenancy: "String"
+      Ipv4IpamPoolId: "String"
+      Ipv4NetmaskLength: Number
+      Tags:
+        Tags
+  RDSmySQL:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "String" # Required
+      DBSubnetGroupName: "String"
+      SubnetIds: # Required
+        SubnetIds
+      Tags:
+        Tags
+  
+Transform:
+  
+Outputs:
