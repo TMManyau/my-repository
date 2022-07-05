@@ -15,8 +15,122 @@ Parameters:
   Subnets:
     Description: Please select your subnets used by ALB
     Type: List<AWS::EC2::Subnet::Id>
+  RootDormainName:
+    Description: awstinomart.com
   
 
 Resources:
-  
+  CloudFront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases:
+          -
+        CNAMEs:
+          -
+        CacheBehaviors:
+          -
+        Comment: "String"
+        CustomErrorResponses:
+          -
+        DefaultRootObject: "String"
+        Enabled: false
+        HttpVersion: "String"
+        IPV6Enabled: false
+        Origins:
+          -
+        PriceClass: "String"
+        WebACLId: "String"
+      Tags:
+        Tags
+  Route53:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      HostedZoneConfig:
+        Comment: "String"
+      HostedZoneTags:
+        HostedZoneTags
+      Name: "String"
+      QueryLoggingConfig:
+        CloudWatchLogsLogGroupArn: "String"
+      VPCs:
+        VPCs
+  ApplicationStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      NotificationARNs:
+        NotificationARNs
+      Parameters:
+      Tags:
+        Tags
+      TemplateURL: "String" # Required
+      TimeoutInMinutes: Number
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: awstinomart.com
+      WebsiteConfiguration:
+        ErrorDocument: "String"
+        IndexDocument: "String"
+        RoutingRules:
+          -
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccelerateConfiguration:
+        AccelerationStatus: "String"
+      AccessControl: "String"
+      AnalyticsConfigurations:
+        AnalyticsConfigurations
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          -
+      BucketName: awstinomart.com
+      CorsConfiguration:
+        CorsRules:
+          -
+      IntelligentTieringConfigurations:
+        IntelligentTieringConfigurations
+      InventoryConfigurations:
+        InventoryConfigurations
+      LifecycleConfiguration:
+        Rules:
+          -
+      LoggingConfiguration:
+        DestinationBucketName: awstinomart.com
+        LogFilePrefix: "String"
+      MetricsConfigurations:
+        MetricsConfigurations
+      NotificationConfiguration:
+        LambdaConfigurations:
+          -
+        QueueConfigurations:
+          -
+        TopicConfigurations:
+          -
+      ObjectLockConfiguration:
+        ObjectLockEnabled: "String"
+      ObjectLockEnabled: false
+      OwnershipControls:
+        Rules:
+          -
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      ReplicationConfiguration:
+        Role: "false"
+        Rules:
+          -
+      Tags:
+        Tags
+      VersioningConfiguration:
+        Status: "false"
+      WebsiteConfiguration:
+        ErrorDocument: Error 403
+        IndexDocument: index.html
+        RoutingRules:
+          -
+  Web 
 Outputs:
